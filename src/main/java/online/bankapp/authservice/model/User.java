@@ -2,15 +2,14 @@ package online.bankapp.authservice.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-@ToString
 @Entity
 @Table(name = "users")
 public class User {
@@ -25,6 +24,9 @@ public class User {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Passkey> passkeys;
 
     public User(EmailAddress email) {
         this.email = email;
@@ -49,5 +51,10 @@ public class User {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User {'ID': %s, 'Email': %s, 'CreatedAt': %s}", id.toString(), email.toString(), createdAt.toString());
     }
 }
