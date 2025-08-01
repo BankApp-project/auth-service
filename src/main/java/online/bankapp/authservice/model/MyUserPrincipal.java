@@ -2,6 +2,7 @@ package online.bankapp.authservice.model;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.webauthn.api.Bytes;
 import org.springframework.security.web.webauthn.api.PublicKeyCredentialUserEntity;
@@ -14,13 +15,16 @@ public class MyUserPrincipal implements UserDetails, PublicKeyCredentialUserEnti
     @Getter
     private final User user;
 
+    private List<GrantedAuthority> roles;
+
     public MyUserPrincipal(User user) {
         this.user = user;
+        roles = List.of((new SimpleGrantedAuthority("ROLE_USER")));
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return roles;
     }
 
     @Override
