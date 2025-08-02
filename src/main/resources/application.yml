@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: auth-service
+  data:
+    redis:
+      host: ${REDIS_HOSTNAME:localhost}
+      password: ${REDIS_PASSWORD}
+      port: ${REDIS_PORT:6379}
+  session:
+    redis:
+      flush-mode: on_save
+      namespace: ${SESSION_NAMESPACE}
