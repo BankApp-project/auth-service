@@ -1,13 +1,16 @@
 package online.bankapp.authservice.model;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import online.bankapp.authservice.model.vo.EmailAddress;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
+@Setter(AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "users")
@@ -22,11 +25,11 @@ public class User {
     private EmailAddress email;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     public User(EmailAddress email) {
         this.email = email;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = Instant.now();
     }
 
     protected User() {
