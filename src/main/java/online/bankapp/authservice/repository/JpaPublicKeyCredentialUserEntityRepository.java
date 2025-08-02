@@ -9,8 +9,8 @@ import org.springframework.security.web.webauthn.api.PublicKeyCredentialUserEnti
 import org.springframework.security.web.webauthn.management.PublicKeyCredentialUserEntityRepository;
 import org.springframework.stereotype.Repository;
 
+import java.nio.ByteBuffer;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class JpaPublicKeyCredentialUserEntityRepository implements PublicKeyCred
 
     @Override
     public PublicKeyCredentialUserEntity findById(Bytes id) {
-        UUID userId = getUUIDFromBytes(id);
+        var userId = getIdFromBytes(id);
 
         Optional<User> userOptional = userRepository.findById(userId);
 
@@ -61,13 +61,13 @@ public class JpaPublicKeyCredentialUserEntityRepository implements PublicKeyCred
 
     @Override
     public void delete(Bytes id) {
-        var userId = getUUIDFromBytes(id);
+        var userId = getIdFromBytes(id);
         userRepository.deleteUserById(userId);
     }
 
-    private UUID getUUIDFromBytes(Bytes id) {
+    private Long getIdFromBytes(Bytes id) {
         byte[] idBytes = id.getBytes();
-        String idString = new String(idBytes);
-        return UUID.fromString(idString);
+
+        return ByteBuffer.wrap(idBytes).getLong();
     }
 }

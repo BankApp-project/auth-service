@@ -6,18 +6,16 @@ import online.bankapp.authservice.model.vo.EmailAddress;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private UUID id;
+    private Long id;
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "email", nullable = false, unique = true))
@@ -25,9 +23,6 @@ public class User {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Passkey> passkeys;
 
     public User(EmailAddress email) {
         this.email = email;
