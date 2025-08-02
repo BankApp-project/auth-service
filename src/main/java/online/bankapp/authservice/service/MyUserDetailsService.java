@@ -25,8 +25,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
         Optional<User> userOptional = userRepository.findByEmail(new EmailAddress(username));
         if (userOptional.isEmpty()) {
-            //TODO or just create new user in this case.
-            throw new UsernameNotFoundException("There is no account with given email.");
+            //if user not found - lets create a new one.
+            var email = new EmailAddress(username);
+            return new MyUserPrincipal(new User(email));
         }
         return new MyUserPrincipal(userOptional.get());
     }

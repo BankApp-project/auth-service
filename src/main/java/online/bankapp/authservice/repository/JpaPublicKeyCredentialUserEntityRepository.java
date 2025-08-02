@@ -39,24 +39,27 @@ public class JpaPublicKeyCredentialUserEntityRepository implements PublicKeyCred
 
     @Override
     public void save(PublicKeyCredentialUserEntity userEntity) {
-        MyUserPrincipal principal = (MyUserPrincipal) userEntity;
-        User user = principal.getUser();
+        if (userEntity instanceof MyUserPrincipal myUserPrincipal) {
+            User user = myUserPrincipal.getUser();
 
-        // If user has no ID, it's a new user - save it
-        if (user.getId() == null) {
-            userRepository.save(user);
-            return;
-        }
+            // If user has no ID, it's a new user - save it
+            if (user.getId() == null) {
+                userRepository.save(user);
+                return;
+            }
 
-        // If user exists, verify it's still valid
-        Optional<User> existingUser = userRepository.findById(user.getId());
-        if (existingUser.isEmpty()) {
-            // User was deleted somehow - recreate it
-            userRepository.save(user);
+            // If user exists, verify it's still valid
+            Optional<User> existingUser = userRepository.findById(user.getId());
+            if (existingUser.isEmpty()) {
+                // User was deleted somehow - recreate it
+                userRepository.save(user);
+            }
+        } else {
+            throw new IllegalArgumentException("Expected MyUserPrincipal but got: " + userEntity.getClass().getSimpleName());
         }
 
         // If user exists and is valid, no action needed
-        // Core user properties (ID, email, createdAt) are immutable in your design
+        // Core user properties (ID, email, createdAt) are immutable
     }
 
     @Override
