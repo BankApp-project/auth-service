@@ -2,6 +2,7 @@ package online.bankapp.authservice.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import online.bankapp.authservice.model.vo.EmailAddress;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;

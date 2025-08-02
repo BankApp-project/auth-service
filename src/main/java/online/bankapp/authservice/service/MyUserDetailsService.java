@@ -2,9 +2,9 @@ package online.bankapp.authservice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import online.bankapp.authservice.model.EmailAddress;
 import online.bankapp.authservice.model.MyUserPrincipal;
 import online.bankapp.authservice.model.User;
+import online.bankapp.authservice.model.vo.EmailAddress;
 import online.bankapp.authservice.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

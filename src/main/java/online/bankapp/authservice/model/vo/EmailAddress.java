@@ -1,4 +1,4 @@
-package online.bankapp.authservice.model;
+package online.bankapp.authservice.model.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
