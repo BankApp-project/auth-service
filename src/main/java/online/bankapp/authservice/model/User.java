@@ -7,6 +7,8 @@ import lombok.Setter;
 import online.bankapp.authservice.model.vo.EmailAddress;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -14,7 +16,10 @@ import java.util.Objects;
 @Getter
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
@@ -23,6 +28,9 @@ public class User {
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "email", nullable = false, unique = true))
     private EmailAddress email;
+
+    @Setter
+    private String password;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;

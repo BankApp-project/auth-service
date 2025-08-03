@@ -1,5 +1,6 @@
 package online.bankapp.authservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,11 +8,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.webauthn.api.Bytes;
 import org.springframework.security.web.webauthn.api.PublicKeyCredentialUserEntity;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
 
-public class MyUserPrincipal implements UserDetails, PublicKeyCredentialUserEntity {
+public class MyUserPrincipal implements UserDetails, PublicKeyCredentialUserEntity, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @Getter
     private final User user;
 
@@ -29,7 +36,7 @@ public class MyUserPrincipal implements UserDetails, PublicKeyCredentialUserEnti
 
     @Override
     public String getPassword() {
-        return null;
+        return user.getPassword();
     }
 
     @Override
@@ -64,7 +71,7 @@ public class MyUserPrincipal implements UserDetails, PublicKeyCredentialUserEnti
 
     @Override
     public Bytes getId() {
-        return new Bytes(user.getId().toString().getBytes());
+        return new Bytes(ByteBuffer.allocate(8).putLong(user.getId()).array());
     }
 
     @Override
