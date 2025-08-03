@@ -34,27 +34,27 @@ services:
     networks:
       - bankapp-network
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: bankapp-auth-service
-    restart: unless-stopped
-    environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
-      DB_URL: db
-      DB_PORT: 5432
-      DB_SCHEMA: ${DB_SCHEMA}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_HOSTNAME: redis
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_PORT: 6379
-      SESSION_NAMESPACE: ${SESSION_NAMESPACE}
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-      - redis
-    networks:
-      - bankapp-network
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: bankapp-auth-service
+#    restart: unless-stopped
+#    environment:
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+#      DB_URL: db
+#      DB_PORT: 5432
+#      DB_SCHEMA: ${DB_SCHEMA}
+#      DB_USERNAME: ${DB_USERNAME}
+#      DB_PASSWORD: ${DB_PASSWORD}
+#      REDIS_HOSTNAME: redis
+#      REDIS_PASSWORD: ${REDIS_PASSWORD}
+#      REDIS_PORT: 6379
+#      SESSION_NAMESPACE: ${SESSION_NAMESPACE}
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - db
+#      - redis
+#    networks:
+#      - bankapp-network
