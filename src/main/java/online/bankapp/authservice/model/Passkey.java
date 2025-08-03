@@ -2,6 +2,7 @@ package online.bankapp.authservice.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.web.webauthn.api.*;
 
@@ -57,12 +58,14 @@ public class Passkey implements CredentialRecord {
     @Column(name = "label")
     private String label;
 
+    @Setter
     @Column(name = "last_used")
     private Instant lastUsed;
 
     @Column(name = "created", nullable = false)
     private Instant created;
 
+    @Setter
     @Column(name = "signature_count")
     private long signatureCount;
 

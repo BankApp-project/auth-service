@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Converter
+@Converter(autoApply = true)
 public class AuthenticatorTransportSetConverter implements AttributeConverter<Set<AuthenticatorTransport>, String> {
 
     private static final String DELIMITER = ";";
