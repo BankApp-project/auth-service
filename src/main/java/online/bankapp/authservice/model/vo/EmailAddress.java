@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import online.bankapp.authservice.exception.InvalidEmailFormatException;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.regex.Pattern;
 
 /**
@@ -20,7 +22,10 @@ import java.util.regex.Pattern;
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // For JPA
-public class EmailAddress {
+public class EmailAddress implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
     );
