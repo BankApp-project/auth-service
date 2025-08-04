@@ -1,0 +1,35 @@
+#  # Explicitly disable components
+#  flyway:
+#    enabled: false
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#    show-sql: false
+#
+#  datasource:
+#    enabled: false
+#
+#  # Disable Redis
+#  data:
+#    redis:
+#      repositories:
+#        enabled: false
+#  redis:
+#    enabled: false
+#
+#  # Disable RabbitMQ
+#  rabbitmq:
+#    enabled: false
+#
+#  # Disable session management
+#  session:
+#    store-type: none
+#
+## Disable actuator endpoints that might trigger connections
+#management:
+#  endpoints:
+#    enabled-by-default: false
+#  health:
+#    defaults:
+#      enabled: false
