@@ -1,34 +1,40 @@
 package online.bankapp.authservice.model;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.time.LocalDateTime;
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
-import java.util.UUID;
 
+
+@Setter(AccessLevel.PROTECTED) //for testing purposes
 @Getter
-@ToString
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private UUID id;
+    private Long id;
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "email", nullable = false, unique = true))
     private EmailAddress email;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     public User(EmailAddress email) {
         this.email = email;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = Instant.now();
     }
 
     protected User() {
@@ -49,5 +55,10 @@ public class User {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User {'ID': %s, 'Email': %s, 'CreatedAt': %s}", id.toString(), email.toString(), createdAt.toString());
     }
 }
