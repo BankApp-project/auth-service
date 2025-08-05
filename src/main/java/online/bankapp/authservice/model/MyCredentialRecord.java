@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.util.Set;
 
 @Getter
+@Entity
 public class MyCredentialRecord implements CredentialRecord {
 
     @Id
@@ -22,6 +23,9 @@ public class MyCredentialRecord implements CredentialRecord {
 
     @Column(unique = true, nullable = false, updatable = false)
     private byte[] credentialId;
+
+    @Column(unique = false, nullable = false, updatable = false)
+    private byte[] userHandle;
 
     @Setter
     @Column(nullable = false)
@@ -33,6 +37,7 @@ public class MyCredentialRecord implements CredentialRecord {
 
     private AttestedCredentialData attestedCredentialData;
 
+    @Column(nullable = false, columnDefinition = "VARCHAR")
     private Set<AuthenticatorTransport> transports;
 
     private boolean uvInitialized;
@@ -63,6 +68,10 @@ public class MyCredentialRecord implements CredentialRecord {
         this.uvInitialized = uvInitialized;
         this.backupEligible = backupEligible;
         this.backedUp = backedUp;
+    }
+
+    protected MyCredentialRecord() {
+        //For JPA
     }
 
     @PrePersist
