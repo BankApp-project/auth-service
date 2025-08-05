@@ -87,7 +87,7 @@ public class MyCredentialRecord implements CredentialRecord {
     }
 
     // TODO check it
-    // For some reason i can't use @Getter/@Setter for this fields. Compilator wont pass that. Dont know why.
+    // For some reason i can't use @Getter/@Setter for this fields. Compilator wont allow that. Dont know why.
 
     @Override
     public @Nullable Boolean isUvInitialized() {
