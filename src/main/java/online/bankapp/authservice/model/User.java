@@ -8,6 +8,7 @@ import org.hibernate.proxy.HibernateProxy;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -60,5 +61,11 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return String.format("User {'ID': %s, 'Email': %s, 'CreatedAt': %s}", id.toString(), email.toString(), createdAt.toString());
+    }
+
+    public byte[] getUserHandle() {
+        return ByteBuffer.allocate(8)
+                .putLong(this.id)
+                .array();
     }
 }
