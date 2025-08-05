@@ -8,6 +8,7 @@ import com.webauthn4j.data.client.CollectedClientData;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.Set;
@@ -34,13 +35,10 @@ public class MyCredentialRecord implements CredentialRecord {
 
     private Set<AuthenticatorTransport> transports;
 
-    @Setter
     private boolean uvInitialized;
 
-    @Setter
     private boolean backupEligible;
 
-    @Setter
     private boolean backedUp;
 
     private Instant createdAt;
@@ -77,5 +75,38 @@ public class MyCredentialRecord implements CredentialRecord {
     @PreUpdate
     protected void onUpdate() {
         this.lastUsed = Instant.now();
+    }
+
+    // TODO check it
+    // For some reason i can't use @Getter/@Setter for this fields. Compilator wont pass that. Dont know why.
+
+    @Override
+    public @Nullable Boolean isUvInitialized() {
+        return uvInitialized;
+    }
+
+    @Override
+    public void setUvInitialized(boolean value) {
+        this.uvInitialized = value;
+    }
+
+    @Override
+    public @Nullable Boolean isBackupEligible() {
+        return backupEligible;
+    }
+
+    @Override
+    public void setBackupEligible(boolean value) {
+        this.backupEligible = value;
+    }
+
+    @Override
+    public @Nullable Boolean isBackedUp() {
+        return this.backedUp;
+    }
+
+    @Override
+    public void setBackedUp(boolean value) {
+        this.backedUp = value;
     }
 }
