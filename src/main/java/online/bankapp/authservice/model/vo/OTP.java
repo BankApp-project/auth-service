@@ -1,6 +1,7 @@
 package online.bankapp.authservice.model.vo;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Objects;
 
@@ -10,12 +11,23 @@ import java.util.Objects;
  */
 public final class OTP {
 
+    private static final String OTP_PATTERN = "^[a-zA-Z0-9]+$";
+
+    @Value("${app.otp.length}")
+    private int MAX_LENGTH;
+
     @Getter
     private final String value;
 
     public OTP(String value) {
-        if (value == null) { // Ensures it's all digits
-            throw new IllegalArgumentException("OTP value must be non-null string.");
+        if (value.length() > MAX_LENGTH) {
+            throw new IllegalArgumentException("OTP max length exceeded. MAX_LENGTH: " + MAX_LENGTH);
+        }
+        if (value == null) {
+            throw new IllegalArgumentException("OTP value must be non-null.");
+        }
+        if (!value.matches(OTP_PATTERN)) {
+            throw new IllegalArgumentException("OTP value must be alphanumeric string.");
         }
         this.value = value;
     }
