@@ -1,3 +1,4 @@
 app:
   otp:
     length: ${OTP_LENGTH}
+    ttl: ${OTP_TTL}
