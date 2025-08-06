@@ -5,6 +5,7 @@ import online.bankapp.authservice.model.vo.OTP;
 import online.bankapp.authservice.repository.OTPRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import java.time.Duration;
@@ -18,6 +19,7 @@ public class RedisOTPRepository implements OTPRepository {
     private static final String KEY_PREFIX = "otp:";
     private final StringRedisTemplate template;
 
+    @Async
     @Override
     public void save(String key, OTP otp) {
         //if this key already exists in Redis, then will be overwritten.
