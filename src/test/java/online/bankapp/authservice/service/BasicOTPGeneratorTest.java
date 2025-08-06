@@ -1,13 +1,14 @@
 package online.bankapp.authservice.service;
 
 import online.bankapp.authservice.exception.OTPGeneratorException;
+import online.bankapp.authservice.service.impl.BasicOTPGenerator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OTPGeneratorTest {
+class BasicOTPGeneratorTest {
 
-    private final OTPGenerator otpGenerator = new OTPGenerator();
+    private final OTPGenerator otpGenerator = new BasicOTPGenerator();
 
     /**
      * Test case for generating a valid PIN of length 6.
