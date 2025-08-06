@@ -1,18 +1,19 @@
 package online.bankapp.authservice.service.impl;
 
 import online.bankapp.authservice.exception.OTPGeneratorException;
+import online.bankapp.authservice.model.vo.OTP;
 import online.bankapp.authservice.service.OTPGenerator;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 
 @Service
-public class BasicOTPGenerator implements OTPGenerator {
+public class NumberOTPGenerator implements OTPGenerator {
 
     private static final SecureRandom secureRandom = new SecureRandom();
 
     @Override
-    public String generateDigitPIN(int len) {
+    public OTP generate(int len) {
         if (len <= 0) {
             throw new OTPGeneratorException("PIN length must be greater than 0");
         }
@@ -21,7 +22,7 @@ public class BasicOTPGenerator implements OTPGenerator {
             throw new OTPGeneratorException("PIN length cannot exceed 9 digits");
         }
 
-        return String.valueOf(getRandomNumber(len));
+        return new OTP(getRandomNumber(len));
     }
 
     private int getRandomNumber(int len) {
