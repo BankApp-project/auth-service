@@ -20,11 +20,11 @@ public final class OTP {
     private final String value;
 
     public OTP(String value) {
-        if (value.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException("OTP max length exceeded. MAX_LENGTH: " + MAX_LENGTH);
-        }
         if (value == null) {
             throw new IllegalArgumentException("OTP value must be non-null.");
+        }
+        if (value.length() > MAX_LENGTH) {
+            throw new IllegalArgumentException("OTP max length exceeded. MAX_LENGTH: " + MAX_LENGTH);
         }
         if (!value.matches(OTP_PATTERN)) {
             throw new IllegalArgumentException("OTP value must be alphanumeric string.");
