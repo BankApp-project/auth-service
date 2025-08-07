@@ -1,7 +1,6 @@
 package online.bankapp.authservice.model.vo;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Objects;
 
@@ -13,33 +12,53 @@ public final class OTP {
 
     private static final String OTP_PATTERN = "^[a-zA-Z0-9]+$";
 
-    @Value("${app.otp.length}")
-    private int MAX_LENGTH;
-
     @Getter
     private final String value;
 
-    public OTP(String value) {
+    @Getter
+    private final String key;
+
+    public OTP(String value, String key) {
+        if (key == null) {
+            throw new IllegalArgumentException("OTP key must be non-null.");
+        }
         if (value == null) {
             throw new IllegalArgumentException("OTP value must be non-null.");
-        }
-        if (value.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException("OTP max length exceeded. MAX_LENGTH: " + MAX_LENGTH);
         }
         if (!value.matches(OTP_PATTERN)) {
             throw new IllegalArgumentException("OTP value must be alphanumeric string.");
         }
         this.value = value;
+        this.key = key;
     }
 
+    public OTP(int value, String key) {
+        this(String.valueOf(value), key);
+    }
+
+    /**
+     * Constructor for backward compatibility.
+     * Uses the value as the key for simplicity.
+     *
+     * @param value The OTP value
+     */
+    public OTP(String value) {
+        this(value, value);
+    }
+
+    /**
+     * Constructor for backward compatibility.
+     * Uses the string representation of the value as the key.
+     * @param value The OTP numeric value
+     */
     public OTP(int value) {
-        this.value = String.valueOf(value);
+        this(String.valueOf(value), String.valueOf(value));
     }
 
     @Override
     public String toString() {
         // Avoid logging the actual OTP value in production for security.
-        return "OTP[value=******]";
+        return "OTP[value=******, key=" + (key != null ? key.substring(0, Math.min(3, key.length())) + "..." : "null") + "]";
     }
 
     @Override
@@ -47,12 +66,12 @@ public final class OTP {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OTP otp = (OTP) o;
-        return Objects.equals(value, otp.value);
+        return Objects.equals(value, otp.value) && Objects.equals(key, otp.key);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(value, key);
     }
 
     public int length() {

@@ -8,6 +8,6 @@ import online.bankapp.authservice.model.vo.OTP;
  */
 public interface OTPRepository {
 
-    void save(String key, OTP otp);
+    void save(OTP otp);
 
 }

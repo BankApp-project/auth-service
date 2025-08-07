@@ -17,6 +17,8 @@ import online.bankapp.authservice.model.vo.OTP;
  */
 public interface OTPService {
 
-    OTP generateAndPersitOTP(String otp);
+    OTP generateOtp(String key);
+
+    void persistOtp(OTP otp);
 
 }

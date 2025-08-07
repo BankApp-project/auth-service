@@ -21,9 +21,9 @@ public class RedisOTPRepository implements OTPRepository {
 
     @Async
     @Override
-    public void save(String key, OTP otp) {
+    public void save(OTP otp) {
         //if this key already exists in Redis, then will be overwritten.
-        var fullKey = KEY_PREFIX + key;
+        var fullKey = KEY_PREFIX + otp.getKey();
         template.opsForValue().set(
                 fullKey,
                 otp.getValue(),
