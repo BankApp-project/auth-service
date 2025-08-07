@@ -5,11 +5,15 @@ import com.webauthn4j.converter.util.ObjectConverter;
 import com.webauthn4j.data.attestation.authenticator.AttestedCredentialData;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import lombok.RequiredArgsConstructor;
 
 @Converter(autoApply = true)
+@RequiredArgsConstructor
 public class JpaAttestedCredentialDataConverter implements AttributeConverter<AttestedCredentialData, byte[]> {
 
-    private final AttestedCredentialDataConverter converter = new AttestedCredentialDataConverter(new ObjectConverter());
+    private final ObjectConverter objectConverter;
+
+    private final AttestedCredentialDataConverter converter = new AttestedCredentialDataConverter(objectConverter);
 
     @Override
     public byte[] convertToDatabaseColumn(AttestedCredentialData attribute) {

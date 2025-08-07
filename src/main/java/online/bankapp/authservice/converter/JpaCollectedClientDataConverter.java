@@ -6,12 +6,15 @@ import com.webauthn4j.data.client.CollectedClientData;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import online.bankapp.authservice.exception.ConverterException;
 
+@RequiredArgsConstructor
 @Converter(autoApply = true)
 public class JpaCollectedClientDataConverter implements AttributeConverter<CollectedClientData, byte[]> {
 
-    private final CollectedClientDataConverter converter = new CollectedClientDataConverter(new ObjectConverter());
+    private final ObjectConverter objectConverter;
+    private final CollectedClientDataConverter converter = new CollectedClientDataConverter(objectConverter);
 
     @Override
     public byte[] convertToDatabaseColumn(@NonNull CollectedClientData attribute) {

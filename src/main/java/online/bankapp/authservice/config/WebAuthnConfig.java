@@ -9,7 +9,11 @@ import org.springframework.context.annotation.Configuration;
 public class WebAuthnConfig {
 
     @Bean
+    public ObjectConverter objectConverter() {
+        return new ObjectConverter();
+    }
+    @Bean
     public CborConverter cborConverter() {
-        return new ObjectConverter().getCborConverter();
+        return objectConverter().getCborConverter();
     }
 }
