@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
 
 @Setter(AccessLevel.PROTECTED) //for testing purposes
@@ -23,9 +24,9 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Long id;
+    //it will be overwritten from EmailVerificationAttempt
+    private UUID id;
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "email", nullable = false, unique = true))
@@ -34,7 +35,8 @@ public class User implements Serializable {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    public User(EmailAddress email) {
+    public User(UUID id, EmailAddress email) {
+        this.id = id;
         this.email = email;
         this.createdAt = Instant.now();
     }
@@ -65,8 +67,9 @@ public class User implements Serializable {
     }
 
     public byte[] getUserHandle() {
-        return ByteBuffer.allocate(8)
-                .putLong(this.id)
+        return ByteBuffer.allocate(16)
+                .putLong(id.getMostSignificantBits())
+                .putLong(id.getLeastSignificantBits())
                 .array();
     }
 }
