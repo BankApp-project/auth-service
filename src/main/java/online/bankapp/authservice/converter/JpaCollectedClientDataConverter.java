@@ -13,14 +13,13 @@ import online.bankapp.authservice.exception.ConverterException;
 @Converter(autoApply = true)
 public class JpaCollectedClientDataConverter implements AttributeConverter<CollectedClientData, byte[]> {
 
-    private final ObjectConverter objectConverter;
-    private final CollectedClientDataConverter converter = new CollectedClientDataConverter(objectConverter);
+    private static final CollectedClientDataConverter CONVERTER = new CollectedClientDataConverter(new ObjectConverter());
 
     @Override
     public byte[] convertToDatabaseColumn(@NonNull CollectedClientData attribute) {
         byte[] res;
         try {
-            res = converter.convertToBytes(attribute);
+            res = CONVERTER.convertToBytes(attribute);
         } catch (RuntimeException e) {
             throw new ConverterException("Failed to convert CollectedClientData to database column", e);
         }
@@ -32,7 +31,7 @@ public class JpaCollectedClientDataConverter implements AttributeConverter<Colle
     public CollectedClientData convertToEntityAttribute(byte[] dbData) {
         CollectedClientData res;
         try {
-            res = converter.convert(dbData);
+            res = CONVERTER.convert(dbData);
         } catch (RuntimeException e) {
             throw new ConverterException("Failed to convert database column to CollectedClientData", e);
         }

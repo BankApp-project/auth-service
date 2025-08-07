@@ -11,17 +11,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JpaAttestedCredentialDataConverter implements AttributeConverter<AttestedCredentialData, byte[]> {
 
-    private final ObjectConverter objectConverter;
-
-    private final AttestedCredentialDataConverter converter = new AttestedCredentialDataConverter(objectConverter);
+    private static final AttestedCredentialDataConverter CONVERTER = new AttestedCredentialDataConverter(new ObjectConverter());
 
     @Override
     public byte[] convertToDatabaseColumn(AttestedCredentialData attribute) {
-        return converter.convert(attribute);
+        return CONVERTER.convert(attribute);
     }
 
     @Override
     public AttestedCredentialData convertToEntityAttribute(byte[] dbData) {
-        return converter.convert(dbData);
+        return CONVERTER.convert(dbData);
     }
 }
