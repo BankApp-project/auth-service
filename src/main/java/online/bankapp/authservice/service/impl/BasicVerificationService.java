@@ -1,7 +1,7 @@
 package online.bankapp.authservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import online.bankapp.authservice.event.UserVerificationReqEvent;
+import online.bankapp.authservice.dto.event.EmailVerificationRequestEvent;
 import online.bankapp.authservice.model.vo.EmailAddress;
 import online.bankapp.authservice.service.VerificationService;
 import org.springframework.context.ApplicationEventPublisher;
@@ -17,6 +17,6 @@ public class BasicVerificationService implements VerificationService {
     @Async
     @Override
     public void init(EmailAddress email) {
-        eventPublisher.publishEvent(new UserVerificationReqEvent(email));
+        eventPublisher.publishEvent(new EmailVerificationRequestEvent(email));
     }
 }
