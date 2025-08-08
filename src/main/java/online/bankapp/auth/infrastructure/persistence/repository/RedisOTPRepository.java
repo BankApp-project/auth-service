@@ -1,0 +1,33 @@
+package online.bankapp.auth.infrastructure.persistence.repository;
+
+import lombok.RequiredArgsConstructor;
+import online.bankapp.auth.domain.otp.model.OTP;
+import online.bankapp.auth.domain.otp.repository.OTPRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Repository;
+
+import java.time.Duration;
+
+@Repository
+@RequiredArgsConstructor
+public class RedisOTPRepository implements OTPRepository {
+
+    @Value("${app.otp.ttl}")
+    private int OTP_TTL;
+    private static final String KEY_PREFIX = "otp:";
+    private final StringRedisTemplate template;
+
+    @Async
+    @Override
+    public void save(OTP otp) {
+        //if this key already exists in Redis, then will be overwritten.
+        var fullKey = KEY_PREFIX + otp.getKey();
+        template.opsForValue().set(
+                fullKey,
+                otp.getValue(),
+                Duration.ofMinutes(OTP_TTL));
+    }
+
+}

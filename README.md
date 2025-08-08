@@ -3,6 +3,10 @@
 This service is build with one milion daily users in mind.
 Also it's build to be highly maintainable.
 
+## Architecture Pattern
+
+This service is using hexagonal architecture
+
 ## Swagger / OpenAPI Informations
 
 Visible at `/swagger-ui/index.html`
@@ -43,3 +47,8 @@ This problem won't be solved.
 Initial approach was to use id from `EmailVerificationRequestEvent` to create new User.
 Problem is - where to store this id? We don't want to create new users until they confirm theirs email address,
 one approach is to store it just as key-value in redis with key as `userId:<email>` and value of event UUID.
+
+### Shared Payloads
+
+As for now, every sending and receiving service have to have his own version of payload.
+We should think about extracting all payloads to shared library or some other shared space.
