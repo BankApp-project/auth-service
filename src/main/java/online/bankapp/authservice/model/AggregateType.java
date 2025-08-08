@@ -3,7 +3,7 @@ package online.bankapp.authservice.model;
 import lombok.Getter;
 
 public enum AggregateType {
-    USER_VERIFICATION_ATTEMPT("user-verification-attempt");
+    EMAIL_VERIFICATION_ATTEMPT("email.verification");
 
     @Getter
     private final String name;

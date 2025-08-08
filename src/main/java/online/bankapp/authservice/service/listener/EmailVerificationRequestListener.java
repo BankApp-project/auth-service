@@ -2,7 +2,7 @@ package online.bankapp.authservice.service.listener;
 
 import lombok.RequiredArgsConstructor;
 import online.bankapp.authservice.converter.JsonConverter;
-import online.bankapp.authservice.dto.event.EmailVerificationRequestEvent;
+import online.bankapp.authservice.dto.event.EmailVerificationRequest;
 import online.bankapp.authservice.dto.payload.EmailVerificationAttemptPayload;
 import online.bankapp.authservice.model.AggregateType;
 import online.bankapp.authservice.model.OutboxEvent;
@@ -19,12 +19,13 @@ public class EmailVerificationRequestListener {
     private final JsonConverter converter;
 
     @EventListener
-    public void handleEmailVerificationReq(EmailVerificationRequestEvent event) {
+    public void handleEmailVerificationReq(EmailVerificationRequest event) {
         var otp = otpService.generateOtp(event.email().getValue());
+        otpService.persistOtp(otp);
 
         var payload = new EmailVerificationAttemptPayload(otp);
         String serializedPayload = converter.serialize(payload);
-        var outboxEvent = new OutboxEvent(AggregateType.USER_VERIFICATION_ATTEMPT, event.id(), event.email().toString(), serializedPayload);
+        var outboxEvent = new OutboxEvent(AggregateType.EMAIL_VERIFICATION_ATTEMPT, event.id(), "created", serializedPayload);
 
     }
 }
