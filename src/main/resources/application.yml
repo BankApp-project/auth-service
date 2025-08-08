@@ -40,6 +40,9 @@ spring:
           enabled: true
           initial-interval: 1000
           max-attempts: 3
+    # --- CRITICAL FOR RELIABILITY ---
+    publisher-confirm-type: correlated  # Enables Publisher Confirms
+    publisher-returns: true             # Enables return callbacks for unroutable messages
 #  data:
 #    redis:
 #      host: ${REDIS_HOSTNAME:localhost}

@@ -1,5 +1,7 @@
 # auth-service
-Authentication Service
+
+This service is build with one milion daily users in mind.
+Also it's build to be highly maintainable.
 
 ## Swagger / OpenAPI Informations
 
