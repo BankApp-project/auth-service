@@ -1,4 +1,4 @@
-package online.bankapp.auth.adapters.web.controller;
+package online.bankapp.auth.infrastructure.adapters.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
